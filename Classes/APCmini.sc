@@ -146,11 +146,11 @@ APCmini {
 
 
 		horInternalState = Array.fill(8,0);
-		horFunction = Array.fill(2,nil!8);
+		horFunction = Array2D.fromArray(2,8,nil!16);
 		horMode = Array.fill(8,defaultMode);
 
 		verInternalState = Array.fill(8,0);
-		verFunction = Array.fill(2,nil!8);
+		verFunction = Array2D.fromArray(2,8,nil!16);
 		verMode = Array.fill(8,defaultMode);
 
 		sliderFunction = Array.fill(9,nil);
@@ -216,7 +216,7 @@ APCmini {
 							// change internal state
 							horInternalState.put(i,state);
 							// run function
-							horFunction.at(state).at(i).value();
+							horFunction.at(state,i).value();
 							// set light
 							out.noteOn(0,note,state);
 							// print
@@ -232,7 +232,7 @@ APCmini {
 							};
 							horInternalState.put(i,state);
 							// run function
-							horFunction.at(state).at(i).value();
+							horFunction.at(state,i).value();
 							// set light
 							out.noteOn(0,note,state);
 							// print
@@ -248,7 +248,7 @@ APCmini {
 							// change internal state
 							verInternalState.put(i,state);
 							// run function
-							verFunction.at(state).at(i).value();
+							verFunction.at(state,i).value();
 							// set light
 							out.noteOn(0,note,state);
 							// print
@@ -264,7 +264,7 @@ APCmini {
 							};
 							verInternalState.put(i,state);
 							// run function
-							verFunction.at(state).at(i).value();
+							verFunction.at(state,i).value();
 							// set light
 							out.noteOn(0,note,state);
 							// print
@@ -314,7 +314,7 @@ APCmini {
 					// change internal state
 					horInternalState.put(i,state);
 					// run function
-					horFunction.at(state).at(i).value();
+					horFunction.at(state,i).value();
 					// set light
 					out.noteOn(0,note,state);
 					// print
@@ -333,7 +333,7 @@ APCmini {
 					// change internal state
 					verInternalState.put(i,state);
 					// run function
-					verFunction.at(state).at(i).value();
+					verFunction.at(state,i).value();
 					// set light
 					out.noteOn(0,note,state);
 					// print
@@ -399,10 +399,10 @@ APCmini {
 		padFunction.at(state).put(row,column,func);
 	}
 
-	setButtonFunction { |type, num, func|
+	setButtonFunction { |type, num, state, func|
 		switch(type)
-		{\hor} { horFunction.put(num,func) }
-		{\ver} { verFunction.put(num,func) }
+		{\hor} {horFunction.put(state,num,func) }
+		{\ver} { verFunction.put(state,num,func) }
 	}
 
 	setSliderFunction { |num,func|
