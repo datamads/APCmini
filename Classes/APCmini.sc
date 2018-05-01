@@ -87,30 +87,28 @@ APCmini {
 
 		destinations = MIDIClient.destinations;
 		destinations.do { |dest, portNumber|
-			if (dest.device=="APC MINI-APC MINI MIDI 1") {
-				out = MIDIOut.new(portNumber);
-				out.latency_(0.001); // minimize latency; with 0 crashes
-				// autoconnect on Linux
-				if ( thisProcess.platform.isKindOf(LinuxPlatform) ) {
+			if (dest.device=="APC MINI") {
 
-					// get number of supercollider midi outs
-					var n = 0;
-					sources.do{|d| if (d.device.split($-)[0]=="SuperCollider") { n = n+1 } };
+                	var n = 0;
 
-					// connect them all
-					n.do{ |i| MIDIOut.connect(i,portNumber); };
+			out = MIDIOut.new(portNumber);
+			out.latency_(0.001); // minimize latency; with 0 crashes
+                
+                	// get number of supercollider midi outs
+                	sources.do{|d| if (d.device.split($-)[0]=="SuperCollider") { n = n+1 } };
 
-				};
+                	// connect them all
+                	n.do{ |i| MIDIOut.connect(i,portNumber); };
+
 			};
 		};
 
 		// connect controller to supercollider
 
-		if (sources.select{|d|d.device=="APC MINI-APC MINI MIDI 1"}.size!=0) {
-			sources.do{|d|if (d.device=="APC MINI-APC MINI MIDI 1") {uid=d.uid}};
-			if ( thisProcess.platform.isKindOf(LinuxPlatform) ) {
-				MIDIIn.connectByUID(0,uid);
-			};
+		if (sources.select{|d|d.device=="APC MINI"}.size!=0) {
+			sources.do{|d|if (d.device=="APC MINI") {uid=d.uid}};
+
+            		MIDIIn.connectByUID(0,uid);
 			"Device connected".postln;
 
 			// play animation
@@ -118,9 +116,6 @@ APCmini {
 		} {
 			"Device not connected".error
 		};
-
-
-
 
 		//////////// INIT VARIABLES
 
